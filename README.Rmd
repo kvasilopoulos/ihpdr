@@ -1,0 +1,39 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# ihpdr
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of ihpdr is to fetch data from the [International Hous Price Database](https://www.dallasfed.org/institute/houseprice#tab1), compiled 
+by the Federal Reserve Bank of Dallas.
+
+## Installation
+
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("kvasilopoulos/ihpdr")
+```
+## Example
+
+This is a basic example which shows you how download raw data:
+
+```{r example}
+library(ihpdr)
+download_raw()
+```

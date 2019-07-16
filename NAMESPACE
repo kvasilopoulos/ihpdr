@@ -2,7 +2,7 @@
 
 export("%>%")
 export(download_exuber)
-export(download_price)
+export(download_raw)
 export(release_dates)
 importFrom(dplyr,full_join)
 importFrom(dplyr,mutate)

@@ -28,7 +28,7 @@ clean_gather <- function(x, nm, ...) {
 #' @importFrom tidyr drop_na
 #' @export
 #'
-download_price <- function() {
+download_raw <- function() {
 
   relative_url <-
     xml2::read_html("https://www.dallasfed.org/institute/houseprice#tab2") %>%
