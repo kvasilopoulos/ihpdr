@@ -6,6 +6,9 @@
 \usage{
 download_exuber(option = c("gsadf", "bsadf"))
 }
+\arguments{
+\item{option}{which to download}
+}
 \description{
 Download nternational House Price Database Exuberance Data
 }

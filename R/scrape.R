@@ -25,6 +25,7 @@ clean_gather <- function(x, nm, ...) {
 #' @importFrom rvest html_nodes html_attrs
 #' @importFrom xml2 read_html
 #' @importFrom readxl read_excel
+#' @importFrom tidyr drop_na
 #' @export
 #'
 download_price <- function() {
@@ -60,9 +61,9 @@ download_price <- function() {
 
 #' Download nternational House Price Database Exuberance Data
 #'
-#'
+#' @param option which to download
 #' @importFrom purrr reduce
-#' @importFrom dplyr slice rename select
+#' @importFrom dplyr slice rename select mutate_at vars
 #' @export
 download_exuber <- function(option = c("gsadf", "bsadf")) {
 
@@ -119,22 +120,22 @@ download_exuber <- function(option = c("gsadf", "bsadf")) {
       gather(tstat, crit, -sig)
     cv_seq_sadf_lag1 <- lag1[8:30, 1:3] %>%
       set_names("country", "sadf", "gsadf") %>%
-      mutate(var = "rhpi", lag = 1) %>%
+      mutate("rhpi", lag = 1) %>%
       mutate_at(vars(sadf, gsadf), as.numeric) %>%
       gather(tstat, value, -country, -var, -lag)
     cv_seq_gsadf_lag1 <- lag1[8:30, c(1,4:5)] %>%
       set_names("country", "sadf", "gsadf") %>%
-      mutate(var = "ratio", lag = 1) %>%
+      mutate("ratio", lag = 1) %>%
       mutate_at(vars(sadf, gsadf), as.numeric) %>%
       gather(tstat, value, -country, -var, -lag)
     cv_seq_sadf_lag4 <- lag4[8:30, 1:3] %>%
       set_names("country", "sadf", "gsadf") %>%
-      mutate(var = "rhpi", lag = 4) %>%
+      mutate("rhpi", lag = 4) %>%
       mutate_at(vars(sadf, gsadf), as.numeric) %>%
       gather(tstat, value, -country, -var, -lag)
     cv_seq_gsadf_lag4 <- lag4[8:30, c(1,4:5)] %>%
       set_names("country", "sadf", "gsadf") %>%
-      mutate(var = "ratio", lag = 4) %>%
+      mutate("ratio", lag = 4) %>%
       mutate_at(vars(sadf, gsadf), as.numeric) %>%
       gather(tstat, value, -country, -var, -lag)
 

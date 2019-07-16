@@ -9,3 +9,10 @@
 #' @importFrom magrittr %>%
 #' @usage lhs \%>\% rhs
 NULL
+
+globalVariables(
+  c("Date", "country", ".", "DATE", "crit_value", "tstat", "value",
+    "crit", "sig", "sadf", "var", "gsadf", "lag")
+)
+
+
