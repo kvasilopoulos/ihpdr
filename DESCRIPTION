@@ -1,0 +1,25 @@
+Package: ihpdr
+Title: International House Price Database
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Kostas",
+           family = "Vasilopoulos",
+           role = c("aut", "cre"),
+           email = "k.vasilopoulos@gmail.com")
+Description: Web scraping the International House Price Database
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    rvest (>= 0.3.4),
+    xml2 (>= 1.2.0),
+    magrittr (>= 1.5),
+    httr (>= 1.4.0),
+    readxl (>= 1.3.1),
+    dplyr (>= 0.8.3),
+    lubridate (>= 1.7.4),
+    purrr (>= 0.3.2),
+    rlang (>= 0.4.0),
+    tidyr (>= 0.8.3)
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
