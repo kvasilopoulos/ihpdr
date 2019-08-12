@@ -11,8 +11,8 @@
 NULL
 
 globalVariables(
-  c("Date", "country", ".", "DATE", "crit_value", "tstat", "value",
-    "crit", "sig", "sadf", "var", "gsadf", "lag")
+  c("Date", "country", ".", "DATE", "tstat", "value",
+    "crit", "sig", "sadf", "type", "gsadf", "lag")
 )
 
 

@@ -108,8 +108,7 @@ raw_data <- download_raw()
 
 ggplot(raw_data, aes(Date, rhpi)) + 
   geom_line(size = 0.7) + 
-  facet_wrap(~country, ncol = 3) +
-  theme_bw()
+  facet_wrap(~country, ncol = 4) 
 ```
 
 <img src="man/figures/README-rhpi-1.png" width="100%" />
@@ -124,8 +123,7 @@ exuber_data %>%
   ggplot() + 
   geom_line(aes(Date, value), size = 0.7) +
   geom_line(aes(Date, crit), col = "red", size = 0.7) +
-  facet_wrap(~country, ncol = 3) + 
-  theme_bw()
+  facet_wrap(~country, ncol = 4)
 ```
 
 <img src="man/figures/README-exuber-ind-1.png" width="100%" />

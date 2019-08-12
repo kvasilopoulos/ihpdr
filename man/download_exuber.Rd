@@ -11,7 +11,7 @@ download_exuber(option = c("gsadf", "bsadf"))
 }
 \description{
 The exuberance indicators files include test statistics for explosive behavior
-on the real house price index (rhpi) and the ratio of RHPI to real personal
+on the real house price index (rhpi) and the ratio of rhpi to real personal
 disposable incomde (rpdi) at a lag length of 1 and 4, along
 with the corresponding 95 percent critical values.
 }
