@@ -108,6 +108,7 @@ raw_data <- download_raw()
 
 ggplot(raw_data, aes(Date, rhpi)) + 
   geom_line(size = 0.7) + 
+  scale_x_date(date_labels = "%y") +
   facet_wrap(~country, ncol = 4) 
 ```
 
@@ -123,13 +124,8 @@ exuber_data %>%
   ggplot() + 
   geom_line(aes(Date, value), size = 0.7) +
   geom_line(aes(Date, crit), col = "red", size = 0.7) +
+  scale_x_date(date_labels = "%y") +
   facet_wrap(~country, ncol = 4)
 ```
 
 <img src="man/figures/README-exuber-ind-1.png" width="100%" />
-
------
-
-Please note that the ‘ihpdr’ project is released with a [Contributor
-Code of Conduct](.github/CODE_OF_CONDUCT.md). By contributing to this
-project, you agree to abide by its terms.

@@ -1,8 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^LICENSE$
 ^README\.Rmd$
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^\.github$
 ^cran-comments\.md$
+^\.github/CODE_OF_CONDUCT\.md$
