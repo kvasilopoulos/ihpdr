@@ -5,7 +5,7 @@ Authors@R:
     person(given = "Kostas",
            family = "Vasilopoulos",
            role = c("aut", "cre"),
-           email = "k.vasilopoulos@gmail.com")
+           email = "k.vasilopoulo@gmail.com")
 Description: Scraping the International House Price Database for up-to-date data on international
     house prices and exuberance indicators.
 License: GPL-3
