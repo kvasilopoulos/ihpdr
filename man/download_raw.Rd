@@ -2,7 +2,7 @@
 % Please edit documentation in R/scrape.R
 \name{download_raw}
 \alias{download_raw}
-\title{Download nternational House Price Database Data}
+\title{Download International House Price Database Data}
 \usage{
 download_raw()
 }
@@ -17,4 +17,8 @@ countries covered:
 }
 All variables in real terms are deflated with the personal consumption
 expenditure (PCE) deflator.
+}
+\examples{
+download_raw()
+
 }

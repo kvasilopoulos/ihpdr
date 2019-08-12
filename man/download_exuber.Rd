@@ -2,13 +2,23 @@
 % Please edit documentation in R/scrape.R
 \name{download_exuber}
 \alias{download_exuber}
-\title{Download nternational House Price Database Exuberance Data}
+\title{Download International House Price Database Exuberance Data}
 \usage{
 download_exuber(option = c("gsadf", "bsadf"))
 }
 \arguments{
-\item{option}{which to download}
+\item{option}{whether to download the 'gsadf' or 'bsadf' statistic.}
 }
 \description{
-Download nternational House Price Database Exuberance Data
+The exuberance indicators files include test statistics for explosive behavior
+on the real house price index (rhpi) and the ratio of RHPI to real personal
+disposable incomde (rpdi) at a lag length of 1 and 4, along
+with the corresponding 95 percent critical values.
+}
+\examples{
+
+download_exuber(option = "gsadf")
+
+download_exuber(option = "bsadf")
+
 }

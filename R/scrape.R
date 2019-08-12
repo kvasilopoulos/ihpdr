@@ -8,7 +8,7 @@ clean_gather <- function(x, nm, ...) {
     tidyr::gather(country, !!enquo(nm), -Date, ...)
 }
 
-#' Download nternational House Price Database Data
+#' Download International House Price Database Data
 #'
 #' All releases of the database include the following time series for the
 #' countries covered:
@@ -62,9 +62,15 @@ download_raw <- function() {
 
 }
 
-#' Download nternational House Price Database Exuberance Data
+#' Download International House Price Database Exuberance Data
 #'
-#' @param option which to download
+#' The exuberance indicators files include test statistics for explosive behavior
+#' on the real house price index (rhpi) and the ratio of rhpi to real personal
+#' disposable incomde (rpdi) at a lag length of 1 and 4, along
+#' with the corresponding 95 percent critical values.
+#'
+#' @param option whether to download the 'gsadf' or 'bsadf' statistic.
+#'
 #' @importFrom purrr reduce
 #' @importFrom dplyr slice rename select mutate_at vars
 #' @export
@@ -92,7 +98,7 @@ download_exuber <- function(option = c("gsadf", "bsadf")) {
   httr::GET(absolute_url, httr::write_disk(tf))
 
   nms <- readxl::read_excel(tf, sheet = 2, range = "G2:AE2") %>%
-    dplyr::rename(Date = DATE, crit_value = "95% CRITICAL VALUES") %>%
+    dplyr::rename(Date = DATE, crit = "95% CRITICAL VALUES") %>%
     names()
 
   suppressMessages({
@@ -101,28 +107,38 @@ download_exuber <- function(option = c("gsadf", "bsadf")) {
   })
 
   if (option == "bsadf") {
-    out <- list(
-      lag1 %>%
-        select(7:31) %>%
-        slice(-1) %>%
-        set_names(nms) %>%
-        clean_gather("rhpi_lag1", -crit_value),
-      lag1 %>%
-        select(33:57) %>%
-        slice(-1) %>%
-        set_names(nms) %>%
-        clean_gather("ratio_lag1", -crit_value),
-      lag4 %>%
-        select(7:31) %>%
-        slice(-1) %>%
-        set_names(nms) %>%
-        clean_gather("rhpi_lag4", -crit_value),
-      lag4 %>%
-        select(33:57) %>%
-        slice(-1) %>%
-        set_names(nms) %>%
-        clean_gather("ratio_lag4", -crit_value)) %>%
-      reduce(full_join, by = c("Date", "crit_value", "country"))
+    out <-
+      list(
+        lag1 %>%
+          select(7:31) %>%
+          slice(-1) %>%
+          set_names(nms) %>%
+          clean_gather("rhpi", -crit),
+        lag1 %>%
+          select(33:57) %>%
+          slice(-1) %>%
+          set_names(nms) %>%
+          clean_gather("ratio", -crit) %>%
+          mutate(lag = 1) ) %>%
+      reduce(full_join, by = c("Date", "crit", "country")) %>%
+      gather(type, value, -Date, -country, -crit, -lag) %>%
+      full_join(
+        list(
+          lag4 %>%
+            select(7:31) %>%
+            slice(-1) %>%
+            set_names(nms) %>%
+            clean_gather("rhpi", -crit),
+          lag4 %>%
+            select(33:57) %>%
+            slice(-1) %>%
+            set_names(nms) %>%
+            clean_gather("ratio", -crit) %>%
+            mutate(lag = 4) ) %>%
+          reduce(full_join, by = c("Date", "crit", "country")) %>%
+          gather(type, value, -Date, -country, -crit, -lag),
+        by = c("country", "Date", "crit", "type", "lag", "value")) %>%
+      select(Date, country, type, lag, value, crit)
   }else{
 
     cv <- lag1[3:5, 1:3] %>%
@@ -130,30 +146,30 @@ download_exuber <- function(option = c("gsadf", "bsadf")) {
       gather(tstat, crit, -sig)
     cv_seq_sadf_lag1 <- lag1[8:30, 1:3] %>%
       set_names("country", "sadf", "gsadf") %>%
-      mutate(var = "rhpi", lag = 1) %>%
+      mutate(type = "rhpi", lag = 1) %>%
       mutate_at(vars(sadf, gsadf), as.numeric) %>%
-      gather(tstat, value, -country, -var, -lag)
+      gather(tstat, value, -country, -type, -lag)
     cv_seq_gsadf_lag1 <- lag1[8:30, c(1,4:5)] %>%
       set_names("country", "sadf", "gsadf") %>%
-      mutate(var = "ratio", lag = 1) %>%
+      mutate(type = "ratio", lag = 1) %>%
       mutate_at(vars(sadf, gsadf), as.numeric) %>%
-      gather(tstat, value, -country, -var, -lag)
+      gather(tstat, value, -country, -type, -lag)
     cv_seq_sadf_lag4 <- lag4[8:30, 1:3] %>%
       set_names("country", "sadf", "gsadf") %>%
-      mutate(var = "rhpi", lag = 4) %>%
+      mutate(type = "rhpi", lag = 4) %>%
       mutate_at(vars(sadf, gsadf), as.numeric) %>%
-      gather(tstat, value, -country, -var, -lag)
+      gather(tstat, value, -country, -type, -lag)
     cv_seq_gsadf_lag4 <- lag4[8:30, c(1,4:5)] %>%
       set_names("country", "sadf", "gsadf") %>%
-      mutate(var = "ratio", lag = 4) %>%
+      mutate(type = "ratio", lag = 4) %>%
       mutate_at(vars(sadf, gsadf), as.numeric) %>%
-      gather(tstat, value, -country, -var, -lag)
+      gather(tstat, value, -country, -type, -lag)
 
     suppressMessages({
       out <- list(cv, cv_seq_sadf_lag1, cv_seq_gsadf_lag1,
                   cv_seq_sadf_lag4, cv_seq_sadf_lag4) %>%
         reduce(full_join) %>%
-        select(country, var, tstat, lag, sig, value, crit) %>%
+        select(country, type, tstat, lag, sig, value, crit) %>%
         mutate_at(vars(crit,sig), as.numeric)
     })
   }
@@ -173,9 +189,4 @@ release_dates <- function() {
 
   tbl[[1]][-1, ] %>%
     set_names("Last Quarter Included", "Data Release Date")
-
 }
-
-
-
-

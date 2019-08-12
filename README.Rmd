@@ -9,7 +9,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  fig.width=6, 
+  fig.height=7
 )
 ```
 # ihpdr
@@ -21,7 +23,7 @@ knitr::opts_chunk$set(
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/kvasilopoulos/ihpdr?branch=master&svg=true)](https://ci.appveyor.com/project/kvasilopoulos/ihpdr)
 <!-- badges: end -->
 
-The goal of {ihpdr} is to fetch data from the [International Hous Price Database](https://www.dallasfed.org/institute/houseprice#tab1), compiled 
+The goal of {ihpdr} is to fetch data from the [International House Price Database](https://www.dallasfed.org/institute/houseprice#tab1), compiled 
 by the Federal Reserve Bank of Dallas.
 
 ## Installation
@@ -51,6 +53,40 @@ download_exuber("bsadf")
 # Get the release dates
 ihpdr::release_dates()
 ```
+
+## Wrangle & Plot Real House Prices
+
+```{r wrangle, message=FALSE}
+library(tidyverse)
+```
+
+### Raw Data
+
+```{r rhpi}
+raw_data <- download_raw()
+
+ggplot(raw_data, aes(Date, rhpi)) + 
+  geom_line(size = 0.7) + 
+  facet_wrap(~country, ncol = 3) +
+  theme_bw()
+
+```
+
+### Exuberance Indicators
+
+```{r exuber-ind, warning=FALSE}
+exuber_data <- download_exuber("bsadf")
+
+exuber_data %>% 
+  dplyr::filter(type == "rhpi", lag == 1) %>% 
+  ggplot() + 
+  geom_line(aes(Date, value), size = 0.7) +
+  geom_line(aes(Date, crit), col = "red", size = 0.7) +
+  facet_wrap(~country, ncol = 3) + 
+  theme_bw()
+
+```
+
 
 ---
 

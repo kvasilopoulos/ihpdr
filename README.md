@@ -15,7 +15,7 @@ status](https://travis-ci.org/kvasilopoulos/ihpdr.svg?branch=master)](https://tr
 status](https://ci.appveyor.com/api/projects/status/github/kvasilopoulos/ihpdr?branch=master&svg=true)](https://ci.appveyor.com/project/kvasilopoulos/ihpdr)
 <!-- badges: end -->
 
-The goal of {ihpdr} is to fetch data from the [International Hous Price
+The goal of {ihpdr} is to fetch data from the [International House Price
 Database](https://www.dallasfed.org/institute/houseprice#tab1), compiled
 by the Federal Reserve Bank of Dallas.
 
@@ -55,7 +55,7 @@ download_raw()
 # Exuberance Indicators ~ gsadf
 download_exuber()
 #> # A tibble: 230 x 7
-#>    country     var   tstat   lag   sig  value  crit
+#>    country     type  tstat   lag   sig  value  crit
 #>    <chr>       <chr> <chr> <dbl> <dbl>  <dbl> <dbl>
 #>  1 Australia   rhpi  sadf      1   0.9 2.85   0.999
 #>  2 Belgium     rhpi  sadf      1   0.9 0.940  0.999
@@ -71,20 +71,20 @@ download_exuber()
 
 # Exuberance Indicators ~ bsadf
 download_exuber("bsadf")
-#> # A tibble: 4,071 x 7
-#>    Date       crit_value country  rhpi_lag1 ratio_lag1 rhpi_lag4 ratio_lag4
-#>    <date>          <dbl> <chr>        <dbl>      <dbl>     <dbl>      <dbl>
-#>  1 1975-01-01         NA Austral~        NA         NA        NA         NA
-#>  2 1975-04-01         NA Austral~        NA         NA        NA         NA
-#>  3 1975-07-01         NA Austral~        NA         NA        NA         NA
-#>  4 1975-10-01         NA Austral~        NA         NA        NA         NA
-#>  5 1976-01-01         NA Austral~        NA         NA        NA         NA
-#>  6 1976-04-01         NA Austral~        NA         NA        NA         NA
-#>  7 1976-07-01         NA Austral~        NA         NA        NA         NA
-#>  8 1976-10-01         NA Austral~        NA         NA        NA         NA
-#>  9 1977-01-01         NA Austral~        NA         NA        NA         NA
-#> 10 1977-04-01         NA Austral~        NA         NA        NA         NA
-#> # ... with 4,061 more rows
+#> # A tibble: 16,284 x 6
+#>    Date       country   type    lag value  crit
+#>    <date>     <chr>     <chr> <dbl> <dbl> <dbl>
+#>  1 1975-01-01 Australia rhpi      1    NA    NA
+#>  2 1975-04-01 Australia rhpi      1    NA    NA
+#>  3 1975-07-01 Australia rhpi      1    NA    NA
+#>  4 1975-10-01 Australia rhpi      1    NA    NA
+#>  5 1976-01-01 Australia rhpi      1    NA    NA
+#>  6 1976-04-01 Australia rhpi      1    NA    NA
+#>  7 1976-07-01 Australia rhpi      1    NA    NA
+#>  8 1976-10-01 Australia rhpi      1    NA    NA
+#>  9 1977-01-01 Australia rhpi      1    NA    NA
+#> 10 1977-04-01 Australia rhpi      1    NA    NA
+#> # ... with 16,274 more rows
 
 # Get the release dates
 ihpdr::release_dates()
@@ -94,6 +94,41 @@ ihpdr::release_dates()
 #> 4    Third quarter 2019 January 6–10, 2020
 #> 5   Fourth quarter 2019   April 6–10, 2020
 ```
+
+## Wrangle & Plot Real House Prices
+
+``` r
+library(tidyverse)
+```
+
+### Raw Data
+
+``` r
+raw_data <- download_raw()
+
+ggplot(raw_data, aes(Date, rhpi)) + 
+  geom_line(size = 0.7) + 
+  facet_wrap(~country, ncol = 3) +
+  theme_bw()
+```
+
+<img src="man/figures/README-rhpi-1.png" width="100%" />
+
+### Exuberance Indicators
+
+``` r
+exuber_data <- download_exuber("bsadf")
+
+exuber_data %>% 
+  dplyr::filter(type == "rhpi", lag == 1) %>% 
+  ggplot() + 
+  geom_line(aes(Date, value), size = 0.7) +
+  geom_line(aes(Date, crit), col = "red", size = 0.7) +
+  facet_wrap(~country, ncol = 3) + 
+  theme_bw()
+```
+
+<img src="man/figures/README-exuber-ind-1.png" width="100%" />
 
 -----
 
