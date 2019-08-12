@@ -15,13 +15,16 @@ knitr::opts_chunk$set(
 # ihpdr
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/ihpdr)](https://CRAN.R-project.org/package=ihpdr)
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Travis build status](https://travis-ci.org/kvasilopoulos/ihpdr.svg?branch=master)](https://travis-ci.org/kvasilopoulos/ihpdr)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/kvasilopoulos/ihpdr?branch=master&svg=true)](https://ci.appveyor.com/project/kvasilopoulos/ihpdr)
 <!-- badges: end -->
 
-The goal of ihpdr is to fetch data from the [International Hous Price Database](https://www.dallasfed.org/institute/houseprice#tab1), compiled 
+The goal of {ihpdr} is to fetch data from the [International Hous Price Database](https://www.dallasfed.org/institute/houseprice#tab1), compiled 
 by the Federal Reserve Bank of Dallas.
 
 ## Installation
-
 
 And the development version from [GitHub](https://github.com/) with:
 
@@ -31,9 +34,26 @@ devtools::install_github("kvasilopoulos/ihpdr")
 ```
 ## Example
 
-This is a basic example which shows you how download raw data:
+This is a basic example which shows you how to download the data:
 
 ```{r example}
 library(ihpdr)
+
+# House Prices
 download_raw()
+
+# Exuberance Indicators ~ gsadf
+download_exuber()
+
+# Exuberance Indicators ~ bsadf
+download_exuber("bsadf")
+
+# Get the release dates
+ihpdr::release_dates()
 ```
+
+---
+
+Please note that the 'ihpdr' project is released with a
+  [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md).
+  By contributing to this project, you agree to abide by its terms.

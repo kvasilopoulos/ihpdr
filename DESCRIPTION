@@ -6,7 +6,8 @@ Authors@R:
            family = "Vasilopoulos",
            role = c("aut", "cre"),
            email = "k.vasilopoulos@gmail.com")
-Description: Web scraping the International House Price Database.
+Description: Scraping the International House Price Database for up-to-date data on international
+    house prices and exuberance indicators.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

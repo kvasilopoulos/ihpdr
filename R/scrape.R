@@ -28,6 +28,9 @@ clean_gather <- function(x, nm, ...) {
 #' @importFrom tidyr drop_na
 #' @export
 #'
+#' @examples
+#' download_raw()
+#'
 download_raw <- function() {
 
   relative_url <-
@@ -65,6 +68,13 @@ download_raw <- function() {
 #' @importFrom purrr reduce
 #' @importFrom dplyr slice rename select mutate_at vars
 #' @export
+#'
+#' @examples
+#'
+#' download_exuber(option = "gsadf")
+#'
+#' download_exuber(option = "bsadf")
+#'
 download_exuber <- function(option = c("gsadf", "bsadf")) {
 
   option <- match.arg(option)
@@ -79,10 +89,10 @@ download_exuber <- function(option = c("gsadf", "bsadf")) {
   absolute_url <- paste0("https://www.dallasfed.org", relative_url)
 
   tf <- tempfile(fileext = ".xlsx")
-  httr::GET(absolute_url, write_disk(tf))
+  httr::GET(absolute_url, httr::write_disk(tf))
 
   nms <- readxl::read_excel(tf, sheet = 2, range = "G2:AE2") %>%
-    rename(Date = DATE, crit_value = "95% CRITICAL VALUES") %>%
+    dplyr::rename(Date = DATE, crit_value = "95% CRITICAL VALUES") %>%
     names()
 
   suppressMessages({
@@ -120,34 +130,35 @@ download_exuber <- function(option = c("gsadf", "bsadf")) {
       gather(tstat, crit, -sig)
     cv_seq_sadf_lag1 <- lag1[8:30, 1:3] %>%
       set_names("country", "sadf", "gsadf") %>%
-      mutate("rhpi", lag = 1) %>%
+      mutate(var = "rhpi", lag = 1) %>%
       mutate_at(vars(sadf, gsadf), as.numeric) %>%
       gather(tstat, value, -country, -var, -lag)
     cv_seq_gsadf_lag1 <- lag1[8:30, c(1,4:5)] %>%
       set_names("country", "sadf", "gsadf") %>%
-      mutate("ratio", lag = 1) %>%
+      mutate(var = "ratio", lag = 1) %>%
       mutate_at(vars(sadf, gsadf), as.numeric) %>%
       gather(tstat, value, -country, -var, -lag)
     cv_seq_sadf_lag4 <- lag4[8:30, 1:3] %>%
       set_names("country", "sadf", "gsadf") %>%
-      mutate("rhpi", lag = 4) %>%
+      mutate(var = "rhpi", lag = 4) %>%
       mutate_at(vars(sadf, gsadf), as.numeric) %>%
       gather(tstat, value, -country, -var, -lag)
     cv_seq_gsadf_lag4 <- lag4[8:30, c(1,4:5)] %>%
       set_names("country", "sadf", "gsadf") %>%
-      mutate("ratio", lag = 4) %>%
+      mutate(var = "ratio", lag = 4) %>%
       mutate_at(vars(sadf, gsadf), as.numeric) %>%
       gather(tstat, value, -country, -var, -lag)
 
-    out <- list(cv, cv_seq_sadf_lag1, cv_seq_gsadf_lag1,
-         cv_seq_sadf_lag4, cv_seq_sadf_lag4) %>%
-      reduce(full_join) %>%
-      select(country, var, tstat, lag, sig, value, crit)
+    suppressMessages({
+      out <- list(cv, cv_seq_sadf_lag1, cv_seq_gsadf_lag1,
+                  cv_seq_sadf_lag4, cv_seq_sadf_lag4) %>%
+        reduce(full_join) %>%
+        select(country, var, tstat, lag, sig, value, crit) %>%
+        mutate_at(vars(crit,sig), as.numeric)
+    })
   }
   out
-
 }
-
 
 #' Fetches the latest release dates
 #'
