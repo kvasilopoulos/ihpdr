@@ -39,19 +39,15 @@ devtools::install_github("kvasilopoulos/ihpdr")
 This is a basic example which shows you how to download the data:
 
 ```{r example}
-library(ihpdr)
 
-# House Prices
-download_raw()
-
-# Exuberance Indicators ~ gsadf
-download_exuber()
+# Raw Data
+ihpdr::ihpd_get()
 
 # Exuberance Indicators ~ bsadf
-download_exuber("bsadf")
+ihpdr::ihpd_get("bsadf")
 
 # Get the release dates
-ihpdr::release_dates()
+ihpdr::ihpd_release_dates()
 ```
 
 ## Wrangle & Plot Real House Prices
@@ -63,7 +59,7 @@ library(tidyverse)
 ### Raw Data
 
 ```{r rhpi}
-raw_data <- download_raw()
+raw_data <- ihpdr::ihpd_get()
 
 ggplot(raw_data, aes(Date, rhpi)) + 
   geom_line(size = 0.7) + 
@@ -71,12 +67,12 @@ ggplot(raw_data, aes(Date, rhpi)) +
   facet_wrap(~country, ncol = 4) 
 ```
 
-### Exuberance Indicators
+### Exuberance Indicators - Date-stamping
 
 ```{r exuber-ind, warning=FALSE}
-exuber_data <- download_exuber("bsadf")
+bsadf_data <- ihpdr::ihpd_get("bsadf")
 
-exuber_data %>% 
+bsadf_data %>% 
   dplyr::filter(type == "rhpi", lag == 1) %>% 
   ggplot() + 
   geom_line(aes(Date, value), size = 0.7) +
