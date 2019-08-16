@@ -28,7 +28,7 @@ by the Federal Reserve Bank of Dallas.
 
 ## Installation
 
-And the development version from [GitHub](https://github.com/) with:
+You can install development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
