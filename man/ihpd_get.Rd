@@ -21,7 +21,7 @@ Available downloads:
 \describe{
 \item{raw}{
 
-Icludes the following time series for the countries covered:
+Includes the following time series for the countries covered:
 \itemize{
 \item hpi: The house price index.
 \item rhpi: The house price index expressed in real terms.
@@ -37,7 +37,7 @@ The exuberance indicators include
 \item{gsadf}{
 \itemize{
 \item type: real house price index (rhpi) and the ratio of rhpi to real
-personal disposable incomde (rpdi)
+personal disposable income (rpdi)
 \item lag: lag length of 1 and 4
 \item sig: significance level for the critical value
 \item value: test statistics for explosive behavior
@@ -49,7 +49,7 @@ personal disposable incomde (rpdi)
 The exuberance indicators include
 \itemize{
 \item type: real house price index (rhpi) and the ratio of rhpi to real
-personal disposable incomde (rpdi)
+personal disposable income (rpdi)
 \item lag: lag length of 1 and 4,
 \item value: test statistics for explosive behavior
 \item crit: 95 percent critical values.

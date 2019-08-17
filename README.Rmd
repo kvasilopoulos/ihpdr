@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build status](https://travis-ci.org/kvasilopoulos/ihpdr.svg?branch=master)](https://travis-ci.org/kvasilopoulos/ihpdr)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/kvasilopoulos/ihpdr?branch=master&svg=true)](https://ci.appveyor.com/project/kvasilopoulos/ihpdr)
+[![Codecov test coverage](https://codecov.io/gh/kvasilopoulos/ihpdr/branch/master/graph/badge.svg)](https://codecov.io/gh/kvasilopoulos/ihpdr?branch=master)
 <!-- badges: end -->
 
 The goal of {ihpdr} is to fetch data from the [International House Price Database](https://www.dallasfed.org/institute/houseprice#tab1), compiled 
