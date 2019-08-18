@@ -6,8 +6,8 @@ Authors@R:
            family = "Vasilopoulos",
            role = c("aut", "cre"),
            email = "k.vasilopoulo@gmail.com")
-Description: Scraping the <https://www.dallasfed.org> for up-to-date data on international
-    house prices and exuberance indicators.
+Description: Web scraping the <https://www.dallasfed.org> for up-to-date data on international
+    house prices and exuberance indicators. Fetch in tidy data form.
 Encoding: UTF-8
 LazyData: true
 Imports: 
