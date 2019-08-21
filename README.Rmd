@@ -29,7 +29,12 @@ by the Federal Reserve Bank of Dallas.
 
 ## Installation
 
-You can install development version from [GitHub](https://github.com/) with:
+You can install the released version of {ihpdr} from CRAN with:
+
+``` r
+install.packages("ihpdr")
+```
+Or install the development version from [GitHub](https://github.com/kvasilopoulos/ihpdr) with:
 
 ``` r
 # install.packages("devtools")
