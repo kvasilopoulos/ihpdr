@@ -9,9 +9,10 @@
 #' `info`.
 #'
 #' @export
+#'
 #' @examples
+#'
 #' ihpd_browse()
-#' ihpd_browse("info)
 ihpd_browse <- function(wat = c("app", "info")) {
   wat <- match.arg(wat)
   ihpd_url <- switch(
