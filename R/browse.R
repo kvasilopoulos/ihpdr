@@ -14,11 +14,11 @@
 #'
 #' ihpd_browse()
 ihpd_browse <- function(wat = c("app", "info")) {
+  wat <- match.arg(wat)
   view_url(wat_url(wat))
 }
 
 wat_url <- function(wat) {
-  wat <- match.arg(wat)
   ihpd_url <- switch(
     wat,
     app = "https://lancs-macro.shinyapps.io/international-housing-observatory/",
