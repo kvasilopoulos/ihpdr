@@ -14,11 +14,21 @@
 #'
 #' ihpd_browse()
 ihpd_browse <- function(wat = c("app", "info")) {
+  view_url(wat_url(wat))
+}
+
+wat_url <- function(wat) {
   wat <- match.arg(wat)
   ihpd_url <- switch(
     wat,
     app = "https://lancs-macro.shinyapps.io/international-housing-observatory/",
     info =  "https://www.dallasfed.org/institute/houseprice#tab2"
   )
-  utils::browseURL(ihpd_url)
+}
+
+view_url <- function(ihpd_url, open = interactive()) {
+  if (open) {
+    utils::browseURL(ihpd_url)
+  }
+  invisible(ihpd_url)
 }
