@@ -138,8 +138,8 @@ ihpd_get_gsadf <- function() {
 #'
 #' Available downloads:
 #' \enumerate{
-#'   \item raw: Raw Date
-#'   \item gsadf: Generalized sup ADF statistic
+#'   \item raw: Raw Data
+#'   \item gsadf: Generalized sup ADF statistics
 #'   \item bsadf: Backward sup ADF statistic sequence
 #'  }
 #'
