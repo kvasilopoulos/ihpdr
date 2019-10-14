@@ -1,12 +1,13 @@
 #' @importFrom httr GET write_disk
 #' @importFrom rvest html_nodes html_attrs
 #' @importFrom xml2 read_html
-ihpd_tf <- function(file = 1) {
+ihpd_tf <- function(file = 1, regex = "hp[0-9]"){
   relative_url <-
     xml2::read_html("https://www.dallasfed.org/institute/houseprice#tab2") %>%
     rvest::html_nodes("a") %>%
     rvest::html_attr("href") %>%
     grep(".xlsx$", ., value = TRUE) %>%
+    grep(regex, ., value = TRUE) %>%
     magrittr::extract(file)
 
   absolute_url <- paste0("https://www.dallasfed.org", relative_url)
@@ -33,7 +34,7 @@ format_excel_raw <- function(x, sheet_num, nm, ...) {
 #' @importFrom tidyr drop_na gather
 ihpd_get_raw <- function() {
 
-  tf <- ihpd_tf(file = 1)
+  tf <- ihpd_tf(regex = "hp[0-9]")
   on.exit(file.remove(tf))
 
   list(
@@ -56,7 +57,7 @@ format_excel_bsadf <- function(x, nm, nms, ...) {
 
 ihpd_get_bsadf <- function() {
 
-  tf <- ihpd_tf(file = 2)
+  tf <- ihpd_tf(file = 1, regex = "hpta[0-9]")
   on.exit(file.remove(tf))
 
   nms <- readxl::read_excel(tf, sheet = 2, range = "G2:AE2") %>%
@@ -105,7 +106,7 @@ format_excel_gsadf <- function(x, nm, lag = 1) {
 
 ihpd_get_gsadf <- function() {
 
-  tf <- ihpd_tf(file = 2)
+  tf <- ihpd_tf(regex = "hpta[0-9]")
   on.exit(file.remove(tf))
 
   nms <- readxl::read_excel(tf, sheet = 2, range = "G2:AE2") %>%
