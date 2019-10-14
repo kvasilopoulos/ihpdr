@@ -4,16 +4,17 @@
 \alias{ihpd_browse}
 \title{Quickly browse to important links}
 \usage{
-ihpd_browse(wat = c("app", "info"))
+ihpd_browse(pick = c("info", "app"))
 }
 \arguments{
-\item{wat}{whether to browse the shiny \code{app} or the \code{info} page. Defaults at
+\item{pick}{whether to browse the shiny \code{info} or the \code{app} page. Defaults at
 \code{info}.}
 }
 \description{
 This function take you to webpages associated with the International House
-Price Database. Option \code{app} take you the International Housing Observatory,
-while \code{info} take you to Dallas Fed info page of the data.
+Price Database and retunrs the url invisibly. Option \code{app} take you the
+International Housing Observatory, while \code{info} take you to Dallas Fed
+info page of the data.
 }
 \examples{
 

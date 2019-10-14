@@ -6,7 +6,7 @@
 #' International Housing Observatory, while `info` take you to Dallas Fed
 #' info page of the data.
 #'
-#' @param wat whether to browse the shiny `app` or the `info` page. Defaults at
+#' @param pick whether to browse the shiny `info` or the `app` page. Defaults at
 #' `info`.
 #'
 #' @export
@@ -14,14 +14,14 @@
 #' @examples
 #'
 #' ihpd_browse()
-ihpd_browse <- function(wat = c("info", "app")) {
-  wat <- match.arg(wat)
-  view_url(wat_url(wat))
+ihpd_browse <- function(pick = c("info", "app")) {
+  pick <- match.arg(pick)
+  view_url(pick_url(pick))
 }
 
-wat_url <- function(wat) {
+pick_url <- function(pick) {
   ihpd_url <- switch(
-    wat,
+    pick,
     app = "https://lancs-macro.shinyapps.io/international-housing-observatory/",
     info =  "https://www.dallasfed.org/institute/houseprice#tab2"
   )
