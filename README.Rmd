@@ -73,7 +73,7 @@ ggplot(raw_data, aes(Date, rhpi)) +
   facet_wrap(~country, ncol = 4) 
 ```
 
-### Exuberance Indicators - Date-stamping
+### Exuberance Indicators - Date-stamping 
 
 ```{r exuber-ind, warning=FALSE}
 bsadf_data <- ihpdr::ihpd_get("bsadf")

@@ -45,20 +45,20 @@ This is a basic example which shows you how to download the data:
 
 # Raw Data
 ihpdr::ihpd_get()
-#> # A tibble: 4,248 x 6
+#> # A tibble: 4,272 x 6
 #>    Date       country     hpi  rhpi   pdi  rpdi
 #>    <date>     <chr>     <dbl> <dbl> <dbl> <dbl>
-#>  1 1975-01-01 Australia  7.60  39.2  14.1  72.2
-#>  2 1975-04-01 Australia  7.74  38.5  14.4  71.4
-#>  3 1975-07-01 Australia  8.04  38.6  14.7  70.6
-#>  4 1975-10-01 Australia  8.29  37.7  15.2  69.6
-#>  5 1976-01-01 Australia  8.58  37.9  15.5  69.1
-#>  6 1976-04-01 Australia  8.83  38.1  15.9  69.5
-#>  7 1976-07-01 Australia  9.07  38.3  17.1  71.2
-#>  8 1976-10-01 Australia  9.25  37.9  17.4  71.1
-#>  9 1977-01-01 Australia  9.48  37.9  17.7  70.7
-#> 10 1977-04-01 Australia  9.66  37.7  18.0  70.2
-#> # ... with 4,238 more rows
+#>  1 1975-01-01 Australia   7.6  39.1  14.1  72.2
+#>  2 1975-04-01 Australia   7.7  38.5  14.4  71.4
+#>  3 1975-07-01 Australia   8    38.6  14.7  70.6
+#>  4 1975-10-01 Australia   8.3  37.7  15.2  69.6
+#>  5 1976-01-01 Australia   8.6  37.9  15.5  69.1
+#>  6 1976-04-01 Australia   8.8  38.1  15.9  69.5
+#>  7 1976-07-01 Australia   9.1  38.3  17.1  71.2
+#>  8 1976-10-01 Australia   9.3  37.9  17.4  71.1
+#>  9 1977-01-01 Australia   9.5  37.9  17.7  70.7
+#> 10 1977-04-01 Australia   9.7  37.7  18.0  70.2
+#> # ... with 4,262 more rows
 
 # Exuberance Indicators ~ bsadf
 ihpdr::ihpd_get("bsadf")
