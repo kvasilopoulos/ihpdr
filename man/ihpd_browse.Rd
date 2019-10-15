@@ -12,7 +12,7 @@ ihpd_browse(pick = c("info", "app"))
 }
 \description{
 This function take you to webpages associated with the International House
-Price Database and retunrs the url invisibly. Option \code{app} take you the
+Price Database and returns the url invisibly. Option \code{app} take you the
 International Housing Observatory, while \code{info} take you to Dallas Fed
 info page of the data.
 }
