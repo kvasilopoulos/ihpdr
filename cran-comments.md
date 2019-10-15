@@ -15,6 +15,6 @@
 
 0 errors | 0 warnings | 1 note
 
-# Problem solved
+# Errox fixes
 
- * Replaced numerical indexing to regexp for excel file selection.
+* There was an error caused by the publication lag of the scraped files. I replaced numerical indexing to regexp for excel file selection to fix it.
