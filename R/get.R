@@ -1,21 +1,41 @@
+
+# GET File ----------------------------------------------------------------
+
+
 #' @importFrom httr GET write_disk
-#' @importFrom rvest html_nodes html_attrs
+#' @importFrom rvest html_nodes html_attrs html_attr
 #' @importFrom xml2 read_html
-ihpd_tf <- function(file = 1, regex = "hp[0-9]"){
-  relative_url <-
+#' @importFrom rlang %||%
+ihpd_tf <- function(version = NULL, regex = "hp[0-9]"){
+  search_url <-
     xml2::read_html("https://www.dallasfed.org/institute/houseprice#tab2") %>%
     rvest::html_nodes("a") %>%
     rvest::html_attr("href") %>%
     grep(".xlsx$", ., value = TRUE) %>%
-    grep(regex, ., value = TRUE) %>%
-    magrittr::extract(file)
+    grep(regex, ., value = TRUE)
 
-  absolute_url <- paste0("https://www.dallasfed.org", relative_url)
+  if (is.null(version)) {
+    relative_url <- search_url[1]
+  } else {
+    type <- gsub("\\[0-9]", "", regex)
+    versions <- gsub(paste0(".*",type, "(.+)",".xlsx"), "\\1", search_url)
+    if (!version %in% versions) {
+      versions_mgs <- paste0(sQuote(versions, FALSE), collapse = " ")
+      error_msg <- paste("wrong version number should be one of", versions_mgs)
+      stop(error_msg, call. = FALSE)
+    }
+    relative_url <- grep(version, search_url, value = TRUE)
+  }
+
+  full_url <- paste0("https://www.dallasfed.org", relative_url)
 
   tf <- tempfile(fileext = ".xlsx")
-  httr::GET(absolute_url, write_disk(tf))
+  httr::GET(full_url, write_disk(tf))
   tf
 }
+
+
+# Raw ---------------------------------------------------------------------
 
 
 #' @importFrom dplyr mutate full_join
@@ -32,9 +52,9 @@ format_excel_raw <- function(x, sheet_num, nm, ...) {
 
 #' @importFrom readxl read_excel
 #' @importFrom tidyr drop_na gather
-ihpd_get_raw <- function() {
+ihpd_get_raw <- function(.version) {
 
-  tf <- ihpd_tf(regex = "hp[0-9]")
+  tf <- ihpd_tf(version = .version, regex = "hp[0-9]")
   on.exit(file.remove(tf))
 
   list(
@@ -46,6 +66,8 @@ ihpd_get_raw <- function() {
     drop_na()
 }
 
+# Bsadf -------------------------------------------------------------------
+
 
 format_excel_bsadf <- function(x, nm, nms, ...) {
   x %>% slice(-1) %>% set_names(nms) %>%
@@ -55,9 +77,9 @@ format_excel_bsadf <- function(x, nm, nms, ...) {
 }
 
 
-ihpd_get_bsadf <- function() {
+ihpd_get_bsadf <- function(.version) {
 
-  tf <- ihpd_tf(file = 1, regex = "hpta[0-9]")
+  tf <- ihpd_tf(version = .version, regex = "hpta[0-9]")
   on.exit(file.remove(tf))
 
   nms <- readxl::read_excel(tf, sheet = 2, range = "G2:AE2") %>%
@@ -92,6 +114,9 @@ ihpd_get_bsadf <- function() {
      select(Date, country, type, lag, value, crit)
 }
 
+# GSADF -------------------------------------------------------------------
+
+
 format_excel_sadf <- function(x) {
   x
 }
@@ -104,9 +129,9 @@ format_excel_gsadf <- function(x, nm, lag = 1) {
     gather(tstat, value, -country, -type, -lag)
 }
 
-ihpd_get_gsadf <- function() {
+ihpd_get_gsadf <- function(.version) {
 
-  tf <- ihpd_tf(regex = "hpta[0-9]")
+  tf <- ihpd_tf(version = .version, regex = "hpta[0-9]")
   on.exit(file.remove(tf))
 
   nms <- readxl::read_excel(tf, sheet = 2, range = "G2:AE2") %>%
@@ -135,7 +160,12 @@ ihpd_get_gsadf <- function() {
 
 }
 
-#' Download International House Price Database Data
+
+
+# GET ---------------------------------------------------------------------
+
+
+#' Download Data from the International House Price Database
 #'
 #' Available downloads:
 #' \enumerate{
@@ -144,7 +174,10 @@ ihpd_get_gsadf <- function() {
 #'   \item bsadf: Backward sup ADF statistic sequence
 #'  }
 #'
-#' @param symbol which dataset to download.
+#' @param symbol Which dataset to download.
+#' @param version Which version to download. Version number should be a character
+#' of the following format %Y%q (e.g. '1801' - corresponds to year 2018,
+#' Quarter 1). Versions start from '1102'. Defaults at the latest available.
 #'
 #' @details
 #'
@@ -189,25 +222,32 @@ ihpd_get_gsadf <- function() {
 #'
 #' @importFrom purrr reduce
 #' @importFrom dplyr slice rename select mutate_at vars
+#'
+#' @return Returns a tibble in long format.
 #' @export
 #'
 #' @examples
 #'
 #' ihpd_get()
-ihpd_get <- function(symbol = c("raw", "gsadf", "bsadf")) {
+ihpd_get <- function(symbol = c("raw", "gsadf", "bsadf"), version = NULL) {
   symbol <- match.arg(symbol)
   switch(symbol,
-    raw = ihpd_get_raw(),
-    gsadf = ihpd_get_gsadf(),
-    bsadf = ihpd_get_bsadf()
+    raw = ihpd_get_raw(.version = version),
+    gsadf = ihpd_get_gsadf(.version = version),
+    bsadf = ihpd_get_bsadf(.version = version)
     )
 }
 
 #' Fetches the latest release dates
 #'
-#'@export
-#'@importFrom rvest html_table
-#'@importFrom rlang set_names
+#' @export
+#' @importFrom rvest html_table
+#' @importFrom rlang set_names
+#'
+#' @return A data.frame with 2 varibles with the latest release dates data.
+#'
+#' @examples
+#' ihpd_release_dates()
 ihpd_release_dates <- function() {
 
   tbl <- xml2::read_html("https://www.dallasfed.org/institute/houseprice") %>%

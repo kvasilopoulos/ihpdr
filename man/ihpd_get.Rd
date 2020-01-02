@@ -2,12 +2,19 @@
 % Please edit documentation in R/get.R
 \name{ihpd_get}
 \alias{ihpd_get}
-\title{Download International House Price Database Data}
+\title{Download Data from the International House Price Database}
 \usage{
-ihpd_get(symbol = c("raw", "gsadf", "bsadf"))
+ihpd_get(symbol = c("raw", "gsadf", "bsadf"), version = NULL)
 }
 \arguments{
-\item{symbol}{which dataset to download.}
+\item{symbol}{Which dataset to download.}
+
+\item{version}{Which version to download. Version number should be a character
+of the following format \%Y\%q (e.g. '1801' - corresponds to year 2018,
+Quarter 1). Versions start from '1102'. Defaults at the latest available.}
+}
+\value{
+Returns a tibble in long format.
 }
 \description{
 Available downloads:
