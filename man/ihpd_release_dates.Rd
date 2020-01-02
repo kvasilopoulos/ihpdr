@@ -6,6 +6,12 @@
 \usage{
 ihpd_release_dates()
 }
+\value{
+A data.frame with 2 varibles with the latest release dates data.
+}
 \description{
 Fetches the latest release dates
+}
+\examples{
+ihpd_release_dates()
 }

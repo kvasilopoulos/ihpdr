@@ -1,0 +1,35 @@
+title: ihpd
+url: https://kvasilopoulos.github.io/ihpdr/
+
+authors:
+  Kostas Vasilopoulos:
+    href: https://kvasilopoulos.netlify.com/
+
+template:
+  params:
+    bootswatch: cosmo
+
+reference:
+
+  - title: Download
+    contents:
+      - ihpd_get
+
+  - title: Browse & Release Dates
+    contents:
+      - ihpd_browse
+      - ihpd_release_dates
+
+navbar:
+  type: default
+  structure:
+    left:
+    - home
+    - reference
+    right:
+    - news
+    - github
+  components:
+    github:
+      icon: fa-github fa-lg
+      href: https://github.com/kvasilopoulos/ihpdr

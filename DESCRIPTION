@@ -22,7 +22,7 @@ Imports:
     rlang (>= 0.4.0),
     tidyr (>= 0.8.3)
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.0
 URL: https://github.com/kvasilopoulos/ihpdr
 BugReports: https://github.com/kvasilopoulos/ihpdr/issues
 Suggests: 
