@@ -1,6 +1,6 @@
 try_GET <- function(x, ...) {
   tryCatch(
-    GET(url = x, timeout(1), ...),
+    GET(url = x, timeout(10), ...),
     error = function(e) conditionMessage(e),
     warning = function(w) conditionMessage(w)
   )
@@ -74,5 +74,5 @@ enclose <- function(x) {
 
 print.access_url <- function(x) {
   cat(enclose("Local file"), "\n\t", x, "\n")
-  cat(enclose("Remote file:"), "\n\t", attr(x, "source"))
+  cat(enclose("Remote file"), "\n\t", attr(x, "source"))
 }
