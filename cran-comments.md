@@ -1,6 +1,6 @@
 ## Test environments
 
-* local OS MS install, R 3.6.0
+* local OS MS install, R 3.6.3
 * Continuous Integration
   * Ubuntu Trusty 14.04 on travis-ci (devel and release)
   * macOS on travis-ci (devel and release)
@@ -13,8 +13,4 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
-
-# Errox fixes
-
-* There was an error caused by the publication lag of the scraped files. I replaced numerical indexing to regexp for excel file selection to fix it.
+0 errors | 0 warnings | 0 notes
