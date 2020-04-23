@@ -59,6 +59,7 @@ format_excel_bsadf <- function(x, nm, nms, ...) {
 ihpd_get_bsadf <- function(.version, .access_info) {
 
   tf <- ihpd_tf(version = .version, regex = "hpta[0-9]", access_info = .access_info)
+  tf %||% return(invisible(NULL))
   on.exit(file.remove(tf))
 
   nms <- readxl::read_excel(tf, sheet = 2, range = "G2:AE2") %>%
@@ -97,11 +98,6 @@ ihpd_get_bsadf <- function(.version, .access_info) {
 
 # GSADF -------------------------------------------------------------------
 
-
-format_excel_sadf <- function(x) {
-  x
-}
-
 format_excel_gsadf <- function(x, nm, lag = 1) {
   x %>%
     set_names("country", "sadf", "gsadf") %>%
@@ -113,6 +109,7 @@ format_excel_gsadf <- function(x, nm, lag = 1) {
 ihpd_get_gsadf <- function(.version, .access_info) {
 
   tf <- ihpd_tf(version = .version, regex = "hpta[0-9]", access_info = .access_info)
+  tf %||% return(invisible(NULL))
   on.exit(file.remove(tf))
 
   nms <- readxl::read_excel(tf, sheet = 2, range = "G2:AE2") %>%
@@ -140,10 +137,7 @@ ihpd_get_gsadf <- function(.version, .access_info) {
     select(country, type, tstat, lag, value, crit, sig) %>%
     set_source(tf) %>%
     set_version(.version)
-
 }
-
-
 
 # GET ---------------------------------------------------------------------
 
