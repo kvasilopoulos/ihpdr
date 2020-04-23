@@ -13,7 +13,7 @@ ihpd_get(symbol = c("raw", "gsadf", "bsadf"), version = NULL, verbose = TRUE)
 of the following format \%Y\%q (e.g. '1801' - corresponds to year 2018,
 Quarter 1). Versions start from '1102'. Defaults at the latest available.}
 
-\item{verbose}{whether to print the url of the data.}
+\item{verbose}{whether to print the url of the excel file that is accessing.}
 }
 \value{
 Returns a tibble in long format.

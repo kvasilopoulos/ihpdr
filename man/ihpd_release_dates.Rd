@@ -7,7 +7,7 @@
 ihpd_release_dates()
 }
 \value{
-A data.frame with 2 varibles with the latest release dates data.
+A data.frame with 2 variables with the latest release dates data.
 }
 \description{
 Fetches the latest release dates

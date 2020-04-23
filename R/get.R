@@ -161,7 +161,7 @@ ihpd_get_gsadf <- function(.version, .access_info) {
 #' @param version Which version to download. Version number should be a character
 #' of the following format %Y%q (e.g. '1801' - corresponds to year 2018,
 #' Quarter 1). Versions start from '1102'. Defaults at the latest available.
-#' @param verbose whether to print the url of the data.
+#' @param verbose whether to print the url of the excel file that is accessing.
 #'
 #' @details
 #'
@@ -231,7 +231,7 @@ ihpd_get <- function(symbol = c("raw", "gsadf", "bsadf"), version = NULL,
 #' @importFrom rvest html_table
 #' @importFrom rlang set_names
 #'
-#' @return A data.frame with 2 varibles with the latest release dates data.
+#' @return A data.frame with 2 variables with the latest release dates data.
 #'
 #' @examples
 #' ihpd_release_dates()
