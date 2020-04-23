@@ -4,7 +4,7 @@
 \alias{ihpd_get}
 \title{Download Data from the International House Price Database}
 \usage{
-ihpd_get(symbol = c("raw", "gsadf", "bsadf"), version = NULL)
+ihpd_get(symbol = c("raw", "gsadf", "bsadf"), version = NULL, verbose = TRUE)
 }
 \arguments{
 \item{symbol}{Which dataset to download.}
@@ -12,6 +12,8 @@ ihpd_get(symbol = c("raw", "gsadf", "bsadf"), version = NULL)
 \item{version}{Which version to download. Version number should be a character
 of the following format \%Y\%q (e.g. '1801' - corresponds to year 2018,
 Quarter 1). Versions start from '1102'. Defaults at the latest available.}
+
+\item{verbose}{whether to print the url of the data.}
 }
 \value{
 Returns a tibble in long format.
