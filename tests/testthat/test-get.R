@@ -1,3 +1,8 @@
+context("ihpd_get")
+
+skip_if_offline()
+skip_if_http_error()
+
 test_that("get works", {
   expect_error(ihpd_get("raw"), NA)
   expect_error(ihpd_get("gsadf"), NA)
