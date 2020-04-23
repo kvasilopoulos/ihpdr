@@ -1,6 +1,16 @@
+# ihpdr 1.2.0
+
+* `ihpd_get()`: now prints the url the file that is accessing. It can be opted 
+out by `verbose = FALSE`.
+* `ihpd_get()` has the option to fetch an older version. Note that prior to 
+`1201` (2012: Q1) the files are backward compatible, thus output has different format.
+* Accessing internet files fail errors have been demoted to messages to comply with
+CRAN guidelines and gracefully fail.
+
+
 # ihpdr 1.1.0
 
-* `ihpd_browse`: new function that takes you to various webpages associated with international house price database.
+* `ihpd_browse()`: new function that takes you to various webpages associated with international house price database.
 * Bug Fix: Replaced numerical indexing to regexp for excel file selection.
 
 # ihpdr 1.0.0.9000

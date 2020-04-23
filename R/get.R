@@ -1,37 +1,13 @@
 
-# GET File ----------------------------------------------------------------
 
+set_source <- function(tbl, url) {
+  attr(tbl, "source") <- attr(url, "source")
+  tbl
+}
 
-#' @importFrom httr GET write_disk
-#' @importFrom rvest html_nodes html_attrs html_attr
-#' @importFrom xml2 read_html
-#' @importFrom rlang %||%
-ihpd_tf <- function(version = NULL, regex = "hp[0-9]"){
-  search_url <-
-    xml2::read_html("https://www.dallasfed.org/institute/houseprice#tab2") %>%
-    rvest::html_nodes("a") %>%
-    rvest::html_attr("href") %>%
-    grep(".xlsx$", ., value = TRUE) %>%
-    grep(regex, ., value = TRUE)
-
-  if (is.null(version)) {
-    relative_url <- search_url[1]
-  } else {
-    type <- gsub("\\[0-9]", "", regex)
-    versions <- gsub(paste0(".*",type, "(.+)",".xlsx"), "\\1", search_url)
-    if (!version %in% versions) {
-      versions_mgs <- paste0(sQuote(versions, FALSE), collapse = " ")
-      error_msg <- paste("wrong version number should be one of", versions_mgs)
-      stop(error_msg, call. = FALSE)
-    }
-    relative_url <- grep(version, search_url, value = TRUE)
-  }
-
-  full_url <- paste0("https://www.dallasfed.org", relative_url)
-
-  tf <- tempfile(fileext = ".xlsx")
-  httr::GET(full_url, write_disk(tf))
-  tf
+set_version <- function(tbl, vers) {
+  attr(tbl, "version") <- attr(vers, "version")
+  tbl
 }
 
 
@@ -52,9 +28,10 @@ format_excel_raw <- function(x, sheet_num, nm, ...) {
 
 #' @importFrom readxl read_excel
 #' @importFrom tidyr drop_na gather
-ihpd_get_raw <- function(.version) {
+ihpd_get_raw <- function(.version, .access_info) {
 
-  tf <- ihpd_tf(version = .version, regex = "hp[0-9]")
+  tf <- ihpd_tf(version = .version, regex = "hp[0-9]", access_info = .access_info)
+  tf %||% return(invisible(NULL))
   on.exit(file.remove(tf))
 
   list(
@@ -63,7 +40,9 @@ ihpd_get_raw <- function(.version) {
     format_excel_raw(tf, 4, "pdi"),
     format_excel_raw(tf, 5, "rpdi")) %>%
     reduce(full_join, by = c("Date", "country")) %>%
-    drop_na()
+    drop_na() %>%
+    set_source(tf) %>%
+    set_version(.version)
 }
 
 # Bsadf -------------------------------------------------------------------
@@ -77,9 +56,9 @@ format_excel_bsadf <- function(x, nm, nms, ...) {
 }
 
 
-ihpd_get_bsadf <- function(.version) {
+ihpd_get_bsadf <- function(.version, .access_info) {
 
-  tf <- ihpd_tf(version = .version, regex = "hpta[0-9]")
+  tf <- ihpd_tf(version = .version, regex = "hpta[0-9]", access_info = .access_info)
   on.exit(file.remove(tf))
 
   nms <- readxl::read_excel(tf, sheet = 2, range = "G2:AE2") %>%
@@ -111,7 +90,9 @@ ihpd_get_bsadf <- function(.version) {
 
    full_join(tbl_lag1, tbl_lag4,
              by = c("country", "Date", "crit", "type", "lag", "value")) %>%
-     select(Date, country, type, lag, value, crit)
+     select(Date, country, type, lag, value, crit) %>%
+     set_source(tf) %>%
+     set_version(.version)
 }
 
 # GSADF -------------------------------------------------------------------
@@ -129,9 +110,9 @@ format_excel_gsadf <- function(x, nm, lag = 1) {
     gather(tstat, value, -country, -type, -lag)
 }
 
-ihpd_get_gsadf <- function(.version) {
+ihpd_get_gsadf <- function(.version, .access_info) {
 
-  tf <- ihpd_tf(version = .version, regex = "hpta[0-9]")
+  tf <- ihpd_tf(version = .version, regex = "hpta[0-9]", access_info = .access_info)
   on.exit(file.remove(tf))
 
   nms <- readxl::read_excel(tf, sheet = 2, range = "G2:AE2") %>%
@@ -156,7 +137,9 @@ ihpd_get_gsadf <- function(.version) {
     reduce(full_join, by = c("tstat", "country", "type", "lag", "value")) %>%
     full_join(cv, by = "tstat") %>%
     mutate_at(vars(crit, sig), as.numeric) %>%
-    select(country, type, tstat, lag, value, crit, sig)
+    select(country, type, tstat, lag, value, crit, sig) %>%
+    set_source(tf) %>%
+    set_version(.version)
 
 }
 
@@ -178,6 +161,7 @@ ihpd_get_gsadf <- function(.version) {
 #' @param version Which version to download. Version number should be a character
 #' of the following format %Y%q (e.g. '1801' - corresponds to year 2018,
 #' Quarter 1). Versions start from '1102'. Defaults at the latest available.
+#' @param verbose whether to print the url of the data.
 #'
 #' @details
 #'
@@ -229,14 +213,17 @@ ihpd_get_gsadf <- function(.version) {
 #' @examples
 #'
 #' ihpd_get()
-ihpd_get <- function(symbol = c("raw", "gsadf", "bsadf"), version = NULL) {
+ihpd_get <- function(symbol = c("raw", "gsadf", "bsadf"), version = NULL,
+                     verbose = TRUE) {
   symbol <- match.arg(symbol)
-  switch(symbol,
-    raw = ihpd_get_raw(.version = version),
-    gsadf = ihpd_get_gsadf(.version = version),
-    bsadf = ihpd_get_bsadf(.version = version)
-    )
+  switch(
+    symbol,
+    raw = ihpd_get_raw(.version = version, .access_info = verbose),
+    gsadf = ihpd_get_gsadf(.version = version, .access_info = verbose),
+    bsadf = ihpd_get_bsadf(.version = version, .access_info = verbose)
+  )
 }
+
 
 #' Fetches the latest release dates
 #'

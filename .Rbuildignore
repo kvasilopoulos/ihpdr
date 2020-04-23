@@ -11,3 +11,5 @@
 ^codecov\.yml$
 ^CRAN-RELEASE$
 ^_pkgdown\.yml$
+^docs$
+^Makefile$
