@@ -45,24 +45,24 @@ This is a basic example which shows you how to download the data:
 
 # Raw Data
 ihpdr::ihpd_get()
-#> # A tibble: 4,272 x 6
+#> # A tibble: 4,320 x 6
 #>    Date       country     hpi  rhpi   pdi  rpdi
 #>    <date>     <chr>     <dbl> <dbl> <dbl> <dbl>
-#>  1 1975-01-01 Australia   7.6  39.1  14.1  72.2
-#>  2 1975-04-01 Australia   7.7  38.5  14.4  71.4
-#>  3 1975-07-01 Australia   8    38.6  14.7  70.6
-#>  4 1975-10-01 Australia   8.3  37.7  15.2  69.6
-#>  5 1976-01-01 Australia   8.6  37.9  15.5  69.1
-#>  6 1976-04-01 Australia   8.8  38.1  15.9  69.5
-#>  7 1976-07-01 Australia   9.1  38.3  17.1  71.2
-#>  8 1976-10-01 Australia   9.3  37.9  17.4  71.1
-#>  9 1977-01-01 Australia   9.5  37.9  17.7  70.7
-#> 10 1977-04-01 Australia   9.7  37.7  18.0  70.2
-#> # ... with 4,262 more rows
+#>  1 1975-01-01 Australia  7.60  39.1  14.1  72.2
+#>  2 1975-04-01 Australia  7.74  38.5  14.4  71.4
+#>  3 1975-07-01 Australia  8.04  38.6  14.7  70.6
+#>  4 1975-10-01 Australia  8.29  37.7  15.2  69.6
+#>  5 1976-01-01 Australia  8.58  37.9  15.5  69.2
+#>  6 1976-04-01 Australia  8.83  38.1  15.9  69.5
+#>  7 1976-07-01 Australia  9.07  38.3  17.1  71.2
+#>  8 1976-10-01 Australia  9.25  37.9  17.4  71.1
+#>  9 1977-01-01 Australia  9.48  37.9  17.7  70.7
+#> 10 1977-04-01 Australia  9.66  37.7  18.0  70.2
+#> # ... with 4,310 more rows
 
 # Exuberance Indicators ~ bsadf
 ihpdr::ihpd_get("bsadf")
-#> # A tibble: 16,284 x 6
+#> # A tibble: 16,560 x 6
 #>    Date       country   type    lag value  crit
 #>    <date>     <chr>     <chr> <dbl> <dbl> <dbl>
 #>  1 1975-01-01 Australia rhpi      1    NA    NA
@@ -75,7 +75,7 @@ ihpdr::ihpd_get("bsadf")
 #>  8 1976-10-01 Australia rhpi      1    NA    NA
 #>  9 1977-01-01 Australia rhpi      1    NA    NA
 #> 10 1977-04-01 Australia rhpi      1    NA    NA
-#> # ... with 16,274 more rows
+#> # ... with 16,550 more rows
 
 # Get the release dates
 ihpdr::ihpd_release_dates()
@@ -116,7 +116,8 @@ bsadf_data %>%
   geom_line(aes(Date, value), size = 0.7) +
   geom_line(aes(Date, crit), col = "red", size = 0.7) +
   scale_x_date(date_labels = "%y") +
-  facet_wrap(~country, ncol = 4)
+  facet_wrap(~country, ncol = 4) +
+  theme_bw()
 ```
 
 <img src="man/figures/README-exuber-ind-1.png" width="100%" />

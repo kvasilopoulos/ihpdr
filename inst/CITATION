@@ -1,0 +1,22 @@
+year <- sub("-.*", "", meta$Date)
+if(!length(year))
+  year <- substr(Sys.Date(),1,4)
+vers <- meta$Version
+if(is.null(vers))
+  vers <- packageVersion("exuber")
+vers <- paste("R package version", vers)
+
+citHeader("To cite package 'ihpdr' in publications, please use:")
+
+citEntry(entry  = "Manual",
+  title  = "ihpdr: Download Data from the International House Price Database",
+  author = personList(as.person("Kostas Vasilopoulos")),
+  year  = year,
+  note  = vers,
+  url   = "https://CRAN.R-project.org/package=ihpdr",
+
+  textVersion =
+  paste0("Vasilopoulos Kostas", " (", year , ") ",
+        "ihpdr: Download Data from the International House Price Database. ", vers, ". ",
+        "https://CRAN.R-project.org/package=ihpdr")
+)

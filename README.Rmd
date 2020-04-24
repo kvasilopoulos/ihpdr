@@ -84,5 +84,6 @@ bsadf_data %>%
   geom_line(aes(Date, value), size = 0.7) +
   geom_line(aes(Date, crit), col = "red", size = 0.7) +
   scale_x_date(date_labels = "%y") +
-  facet_wrap(~country, ncol = 4)
+  facet_wrap(~country, ncol = 4) +
+  theme_bw()
 ```
