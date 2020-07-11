@@ -18,3 +18,24 @@ test_that("older versions work", {
 test_that("wrong-version", {
   expect_error(ihpd_get("raw", version = "10-1"))
 })
+
+
+test_that("bsadf has the right elements",{
+  bsadf <- ihpd_get("bsadf")
+  countries <- unique(bsadf$country)
+  lags <- unique(bsadf$lag)
+  start_date <- bsadf$Date[1]
+  expect_false(all(startsWith(countries, "Aggregate")))
+  expect_true(all(lags %in% c(1,4)))
+  expect_true(start_date == "1975-01-01")
+})
+
+test_that("bsadf has the right elements",{
+  gsadf <- ihpd_get("gsadf")
+  countries <- unique(bsadf$country)
+  lags <- unique(bsadf$lag)
+  sig <- unique(gsadf$sig)
+  expect_false(all(startsWith(countries, "Aggregate")))
+  expect_true(all(lags %in% c(1,4)))
+  expect_true(all(sig %in% c(0.90, 0.95, 0.99)))
+})

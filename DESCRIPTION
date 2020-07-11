@@ -1,6 +1,6 @@
 Package: ihpdr
 Title: Download Data from the International House Price Database
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: 
     person(given = "Kostas",
            family = "Vasilopoulos",
