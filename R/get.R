@@ -61,20 +61,24 @@ ihpd_get_bsadf <- function(.version, .access_info) {
   tf <- ihpd_tf(version = .version, regex = "hpta[0-9]", access_info = .access_info)
   tf %||% return(invisible(NULL))
   on.exit(file.remove(tf))
+  # tf <- "inst/hpta2001.xlsx"
 
-  nms <- readxl::read_excel(tf, sheet = 2, range = "G2:AE2") %>%
-    dplyr::rename(Date = DATE, crit = "95% CRITICAL VALUES") %>%
-    names()
+  nms <- read_excel(tf, sheet = 2, range = "G2:BQ2", .name_repair = "minimal") %>%
+    names() %>% unique()
+  nms[1:2] <- c("Date", "crit")
+  nms <- nms[nms != ""]
 
   suppressMessages({
-    lag1 <- readxl::read_excel(tf, sheet = 2, skip = 1, na = c("", "NA"))
-    lag4 <- readxl::read_excel(tf, sheet = 3, skip = 1, na = c("", "NA"))
+    lag1 <- readxl::read_excel(tf, sheet = 2, skip = 1, na = c("", "NA"))[,-c(1:6)]
+    lag4 <- readxl::read_excel(tf, sheet = 3, skip = 1, na = c("", "NA"))[,-c(1:6)]
   })
+
+  split_at <- which(colSums(is.na(lag1)) == nrow(lag1))
 
   tbl_lag1 <-
     list(
-      format_excel_bsadf(lag1[,7:31], nm = "rhpi", nms),
-      format_excel_bsadf(lag1[,33:57], nm = "ratio", nms)
+      format_excel_bsadf(lag1[, 1:(split_at - 1)], nm = "rhpi", nms),
+      format_excel_bsadf(lag1[, (split_at + 1):ncol(lag1)], nm = "ratio", nms)
       ) %>%
     reduce(full_join, by = c("Date", "crit", "country")) %>%
     mutate(lag = 1) %>%
@@ -82,8 +86,8 @@ ihpd_get_bsadf <- function(.version, .access_info) {
 
   tbl_lag4 <-
     list(
-      format_excel_bsadf(lag4[, 7:31], nm = "rhpi", nms),
-      format_excel_bsadf(lag4[, 33:57], nm = "ratio", nms)
+      format_excel_bsadf(lag4[, 1:(split_at - 1)], nm = "rhpi", nms),
+      format_excel_bsadf(lag4[, (split_at + 1):ncol(lag1)], nm = "ratio", nms)
     ) %>%
     reduce(full_join, by = c("Date", "crit", "country")) %>%
     mutate(lag = 4) %>%
