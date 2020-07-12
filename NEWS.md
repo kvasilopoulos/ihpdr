@@ -1,6 +1,6 @@
 # ihpdr 1.2.1
 
-* Minor changes to accomodate the new format in 2020-Q1 from the IHPD.
+* Minor changes to accommodate the new format in 2020-Q1 from the IHPD.
 
 # ihpdr 1.2.0
 
