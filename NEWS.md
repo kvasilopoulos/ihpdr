@@ -1,6 +1,10 @@
+# ihpdr 1.2.1
+
+* Minor changes to accomodate the new format in 2020-Q1 from the IHPD.
+
 # ihpdr 1.2.0
 
-* `ihpd_get()`: now prints the url the file that is accessing. It can be opted 
+* `ihpd_get()`: now prints the url of the file that is accessing. It can be opted 
 out by `verbose = FALSE`.
 * `ihpd_get()` has the option to fetch an older version. Note that prior to 
 `1201` (2012: Q1) the files are backward compatible, thus output has different format.

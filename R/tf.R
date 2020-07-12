@@ -9,9 +9,7 @@ is_response <- function(x) {
   class(x) == "response"
 }
 
-
 # GET File ----------------------------------------------------------------
-
 
 #' @importFrom httr GET write_disk timeout
 #' @importFrom rvest html_nodes html_attrs html_attr

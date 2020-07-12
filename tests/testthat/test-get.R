@@ -32,8 +32,8 @@ test_that("bsadf has the right elements",{
 
 test_that("bsadf has the right elements",{
   gsadf <- ihpd_get("gsadf")
-  countries <- unique(bsadf$country)
-  lags <- unique(bsadf$lag)
+  countries <- unique(gsadf$country)
+  lags <- unique(gsadf$lag)
   sig <- unique(gsadf$sig)
   expect_false(all(startsWith(countries, "Aggregate")))
   expect_true(all(lags %in% c(1,4)))
