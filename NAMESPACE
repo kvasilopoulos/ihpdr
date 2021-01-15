@@ -2,8 +2,10 @@
 
 export("%>%")
 export(ihpd_browse)
+export(ihpd_countries)
 export(ihpd_get)
 export(ihpd_release_dates)
+export(ihpd_versions)
 importFrom(dplyr,full_join)
 importFrom(dplyr,mutate)
 importFrom(dplyr,mutate_at)

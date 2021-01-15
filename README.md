@@ -8,7 +8,7 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/ihpdr)](https://CRAN.R-project.org/package=ihpdr)
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+stable](https://img.shields.io/badge/stable-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![Travis build
 status](https://travis-ci.org/kvasilopoulos/ihpdr.svg?branch=master)](https://travis-ci.org/kvasilopoulos/ihpdr)
 [![AppVeyor build
@@ -42,27 +42,26 @@ devtools::install_github("kvasilopoulos/ihpdr")
 This is a basic example which shows you how to download the data:
 
 ``` r
-
 # Raw Data
 ihpdr::ihpd_get()
-#> # A tibble: 4,320 x 6
+#> # A tibble: 4,941 x 6
 #>    Date       country     hpi  rhpi   pdi  rpdi
 #>    <date>     <chr>     <dbl> <dbl> <dbl> <dbl>
-#>  1 1975-01-01 Australia  7.60  39.1  14.1  72.2
-#>  2 1975-04-01 Australia  7.74  38.5  14.4  71.4
+#>  1 1975-01-01 Australia  7.60  39.1  14.1  72.3
+#>  2 1975-04-01 Australia  7.75  38.5  14.4  71.4
 #>  3 1975-07-01 Australia  8.04  38.6  14.7  70.6
-#>  4 1975-10-01 Australia  8.29  37.7  15.2  69.6
-#>  5 1976-01-01 Australia  8.58  37.9  15.5  69.2
-#>  6 1976-04-01 Australia  8.83  38.1  15.9  69.5
+#>  4 1975-10-01 Australia  8.29  37.7  15.2  69.5
+#>  5 1976-01-01 Australia  8.58  37.9  15.5  69.1
+#>  6 1976-04-01 Australia  8.84  38.1  15.9  69.5
 #>  7 1976-07-01 Australia  9.07  38.3  17.1  71.2
 #>  8 1976-10-01 Australia  9.25  37.9  17.4  71.1
-#>  9 1977-01-01 Australia  9.48  37.9  17.7  70.7
-#> 10 1977-04-01 Australia  9.66  37.7  18.0  70.2
-#> # ... with 4,310 more rows
+#>  9 1977-01-01 Australia  9.47  37.9  17.7  70.7
+#> 10 1977-04-01 Australia  9.67  37.7  18.0  70.1
+#> # ... with 4,931 more rows
 
 # Exuberance Indicators ~ bsadf
 ihpdr::ihpd_get("bsadf")
-#> # A tibble: 16,560 x 6
+#> # A tibble: 18,200 x 6
 #>    Date       country   type    lag value  crit
 #>    <date>     <chr>     <chr> <dbl> <dbl> <dbl>
 #>  1 1975-01-01 Australia rhpi      1    NA    NA
@@ -75,15 +74,15 @@ ihpdr::ihpd_get("bsadf")
 #>  8 1976-10-01 Australia rhpi      1    NA    NA
 #>  9 1977-01-01 Australia rhpi      1    NA    NA
 #> 10 1977-04-01 Australia rhpi      1    NA    NA
-#> # ... with 16,550 more rows
+#> # ... with 18,190 more rows
 
 # Get the release dates
 ihpdr::ihpd_release_dates()
-#>   Last Quarter Included  Data Release Date
-#> 2    First quarter 2019    July 8–12, 2019
-#> 3   Second quarter 2019 October 7–11, 2019
-#> 4    Third quarter 2019 January 6–10, 2020
-#> 5   Fourth quarter 2019   April 6–10, 2020
+#>   Last Quarter Included   Data Release Date
+#> 2    First quarter 2020     July 6–10, 2020
+#> 3   Second quarter 2020   October 5–9, 2020
+#> 4    Third quarter 2020 January 11–15, 2021
+#> 5   Fourth quarter 2020   April 12–16, 2021
 ```
 
 ## Wrangle & Plot Real House Prices
