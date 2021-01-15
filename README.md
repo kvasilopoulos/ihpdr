@@ -9,12 +9,9 @@
 status](https://www.r-pkg.org/badges/version/ihpdr)](https://CRAN.R-project.org/package=ihpdr)
 [![Lifecycle:
 stable](https://img.shields.io/badge/stable-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#stable)
-[![Travis build
-status](https://travis-ci.org/kvasilopoulos/ihpdr.svg?branch=master)](https://travis-ci.org/kvasilopoulos/ihpdr)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/kvasilopoulos/ihpdr?branch=master&svg=true)](https://ci.appveyor.com/project/kvasilopoulos/ihpdr)
 [![Codecov test
 coverage](https://codecov.io/gh/kvasilopoulos/ihpdr/branch/master/graph/badge.svg)](https://codecov.io/gh/kvasilopoulos/ihpdr?branch=master)
+[![R-CMD-check](https://github.com/kvasilopoulos/ihpdr/workflows/R-CMD-check/badge.svg)](https://github.com/kvasilopoulos/ihpdr/actions)
 <!-- badges: end -->
 
 The goal of {ihpdr} is to fetch data from the [International House Price
