@@ -9,14 +9,7 @@ is_response <- function(x) {
   class(x) == "response"
 }
 
-# GET File ----------------------------------------------------------------
-
-#' @importFrom httr GET write_disk timeout
-#' @importFrom rvest html_nodes html_attrs html_attr
-#' @importFrom xml2 read_html
-#' @importFrom rlang %||%
-ihpd_tf <- function(version = NULL, regex = "hp[0-9]", access_info){
-
+ihpd_files <- function(regex = "hp[0-9]") {
   if (!curl::has_internet()) {
     message("No internet connection.")
     return(invisible(NULL))
@@ -31,13 +24,25 @@ ihpd_tf <- function(version = NULL, regex = "hp[0-9]", access_info){
     httr::message_for_status(resp)
     return(invisible(NULL))
   }
+  resp
 
-  search_url <-
-    xml2::read_html(resp) %>%
+  xml2::read_html(resp) %>%
     rvest::html_nodes("a") %>%
     rvest::html_attr("href") %>%
     grep(".xlsx$", ., value = TRUE) %>%
     grep(regex, ., value = TRUE)
+
+}
+
+# GET File ----------------------------------------------------------------
+
+#' @importFrom httr GET write_disk timeout
+#' @importFrom rvest html_nodes html_attrs html_attr
+#' @importFrom xml2 read_html
+#' @importFrom rlang %||%
+ihpd_tf <- function(version = NULL, regex = "hp[0-9]", access_info = FALSE){
+
+  search_url <- ihpd_files(regex = regex)
 
   if (is.null(version)) {
     relative_url <- search_url[1]

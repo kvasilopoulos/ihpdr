@@ -242,3 +242,28 @@ ihpd_release_dates <- function() {
   tbl[[1]][-1, ] %>%
     set_names("Last Quarter Included", "Data Release Date")
 }
+
+#' Get all the available versions
+#'
+#' @export
+#' @return A character vector with all the available versions.
+#' @examples
+#' ihpd_versions()
+#'
+ihpd_versions <- function() {
+  search_url <- ihpd_files(regex = "hp[0-9]")
+  type <- gsub("\\[0-9]", "", "hp[0-9]")
+  gsub(paste0(".*",type, "(.+)",".xlsx"), "\\1", search_url)
+}
+
+#' List all the countries
+#'
+#' @inheritParams ihpd_get
+#' @export
+#' @return A character vector all the countries.
+#' @examples
+#' ihpd_countries()
+#'
+ihpd_countries <- function(version = NULL) {
+  unique(ihpd_get("raw", version = version, verbose = FALSE)$country)
+}
